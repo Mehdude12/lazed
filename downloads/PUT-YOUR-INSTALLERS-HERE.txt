@@ -1,0 +1,9 @@
+Put your finished installers in this folder, with exactly these names:
+
+  Lazed-Windows.exe          the Windows installer          (made on Windows by desktop-app\build_windows.bat)
+  Lazed-macOS-silicon.dmg    the Mac installer, Apple Silicon (made on an Apple Silicon Mac by desktop-app/build_mac.sh)
+  Lazed-macOS-intel.dmg      the Mac installer, Intel         (made on an Intel Mac by desktop-app/build_mac.sh)
+
+build_mac.sh saves its result as Lazed-macOS.dmg; rename it to the matching name above.
+Until a file exists, its button on the Download page shows "Coming soon". To use different file names,
+change them in js/config.js. You can delete this text file before you publish.
