@@ -14,7 +14,7 @@ window.LAZED = {
     windows: {
       file: "downloads/Lazed-Windows.exe",
       requirements: ["Windows 10 or later, 64-bit", "An internet connection"],
-      sha256: "c0db7c0eba1b0682c28a07725866878a04fd22d4c95e8008c18567deac46e900",
+      sha256: "0d83f7864a6c5084d1a59cff16143bd44a64a292071f41b08e5c663c82bc57e5",
     },
     mac: {
       // The Mac has two installers. Apple Silicon = Macs from late 2020 (M1, M2, M3, M4...). Intel = older Macs.
