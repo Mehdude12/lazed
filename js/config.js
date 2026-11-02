@@ -15,7 +15,7 @@ window.LAZED = {
   downloads: {
     windows: {
       store: {
-        productId: "https://apps.microsoft.com/detail/9NJM7N0TVPFT", // your 12-character Microsoft Store ID, e.g. "9NBLGGH4NNS1"
+        productId: "9NJM7N0TVPFT", // your 12-character Microsoft Store ID, e.g. "9NBLGGH4NNS1"
         autoOpen: true, // Windows visitors on the download page are sent to the Store automatically (once per visit)
       },
       requirements: ["Windows 10 (version 1809) or later, 64-bit", "An internet connection"],
