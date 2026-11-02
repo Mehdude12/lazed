@@ -1,20 +1,24 @@
 /* Lazed website settings. This is the only file you need to edit when you publish a new build.
 
-   1. Put your installer files (Windows, and Mac for Apple Silicon and Intel) in the "downloads" folder using the names below
-      (or change the names here to match your files).
-   2. Set "version" if you want it shown on the download page.
-   3. Optional: paste the SHA-256 checksum of each file so people can verify their download.
+   WINDOWS: Lazed for Windows is distributed through the Microsoft Store, so there is no .exe to upload.
+   1. In Partner Center, open your app and copy its "Store ID" (12 letters and digits, for example 9NBLGGH4NNS1)
+      into windows.store.productId below.
+   2. While productId is empty, the Windows button shows "Coming soon" and nothing opens automatically.
+      The moment you paste the ID, Windows visitors are sent to your Microsoft Store page.
 
-   While a file is missing from the server, its button shows "Coming soon" instead of a broken link.
-   The moment you upload the file, the button turns into a normal download button. */
+   MAC: put your two installers in the "downloads" folder using the names below (or change the names here),
+   and optionally paste each file's SHA-256 checksum so people can verify their download.
+   While a Mac file is missing from the server, its button shows "Coming soon" instead of a broken link. */
 window.LAZED = {
   supportEmail: "support@lazed.co.in",
   version: "", // for example "1.0.0". Leave empty to hide it.
   downloads: {
     windows: {
-      file: "downloads/Lazed-Windows.exe",
-      requirements: ["Windows 10 or later, 64-bit", "An internet connection"],
-      sha256: "0d83f7864a6c5084d1a59cff16143bd44a64a292071f41b08e5c663c82bc57e5",
+      store: {
+        productId: "https://apps.microsoft.com/detail/9NJM7N0TVPFT", // your 12-character Microsoft Store ID, e.g. "9NBLGGH4NNS1"
+        autoOpen: true, // Windows visitors on the download page are sent to the Store automatically (once per visit)
+      },
+      requirements: ["Windows 10 (version 1809) or later, 64-bit", "An internet connection"],
     },
     mac: {
       // The Mac has two installers. Apple Silicon = Macs from late 2020 (M1, M2, M3, M4...). Intel = older Macs.

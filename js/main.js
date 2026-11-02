@@ -1,6 +1,6 @@
 /* Lazed website scripts. No libraries, no tracking. Every page works without this file;
    it only adds: the mobile menu, computer detection, the demo in the hero, download checks,
-   the contact helper and the "on this page" highlight. */
+   the Microsoft Store link for Windows, the contact helper and the "on this page" highlight. */
 (function () {
   "use strict";
 
@@ -121,6 +121,60 @@
       }).catch(function () { /* offline: leave the link as it is */ });
     }
 
+    // Windows is distributed through the Microsoft Store, not as a file to download.
+    function setupStore(card, store) {
+      var link = $("[data-store-link]", card);
+      var label = $("[data-store-label]", card);
+      var note = $("#store-note");
+      var id = String(store.productId || "").trim();
+
+      if (!/^[A-Za-z0-9]{12}$/.test(id)) {
+        // Not published yet (no Store ID in js/config.js): "Coming soon" instead of a link that goes nowhere.
+        if (link) { link.setAttribute("aria-disabled", "true"); link.removeAttribute("href"); }
+        if (label) label.textContent = "Coming soon";
+        var un = $("[data-unavailable]", card);
+        if (un) un.hidden = false;
+        return;
+      }
+
+      var appUrl = "ms-windows-store://pdp/?productid=" + id;   // opens the Microsoft Store app on Lazed's page
+      var webUrl = "https://apps.microsoft.com/detail/" + id;   // the same page on the web
+
+      function openStore(fallbackToWeb) {
+        window.location.href = appUrl;
+        // The browser may show its own "Open Microsoft Store?" prompt; that is normal and cannot be skipped.
+        // If a click did nothing at all (still focused after a moment), show the web page for the app instead.
+        if (fallbackToWeb) {
+          setTimeout(function () {
+            if (document.visibilityState === "visible" && document.hasFocus()) window.location.href = webUrl;
+          }, 2500);
+        }
+      }
+
+      if (link) {
+        link.setAttribute("href", webUrl);
+        link.addEventListener("click", function (e) {
+          if (OS !== "windows") return;   // Mac, phones: the normal web page is the right place
+          e.preventDefault();
+          openStore(true);
+        });
+      }
+
+      // Windows visitors who land on this page are sent to the Store once per visit.
+      // Add ?stay to the address to stop that (for example: download.html?stay).
+      if (OS === "windows" && store.autoOpen !== false && !/[?&]stay(?:&|=|$)/.test(location.search)) {
+        var already = false;
+        try {
+          already = sessionStorage.getItem("lazed-store-opened") === "1";
+          sessionStorage.setItem("lazed-store-opened", "1");
+        } catch (err) { /* storage blocked: it may open again on reload, which is harmless */ }
+        if (!already) {
+          if (note) note.hidden = false;
+          setTimeout(function () { openStore(false); }, 400);
+        }
+      }
+    }
+
     platforms.forEach(function (card) {
       var key = card.getAttribute("data-platform");
       var conf = (CFG.downloads || {})[key];
@@ -134,6 +188,8 @@
           return li;
         }));
       }
+
+      if (key === "windows") { setupStore(card, conf.store || {}); return; }
 
       if (conf.variants) {
         // One card, several installers (for example Mac: Apple Silicon and Intel)
